@@ -1,28 +1,45 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>Simon Dice</title>
-    <link rel="stylesheet" href="css.css">
-  </head>
-  <body>
-    <div class="score-board">
-      Aciertos
-      <div class="p" id="score-board"> 0 </div>
+<head>
+  <meta charset="utf-8">
+  <title>Simon Dice</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="css.css">
+</head>
+<body>
+  <div class="container">
+    <div class="row align-items-center bg-dark text-white">
+      <div class="col text-center text-uppercase">
+        <small>Welcome to </small>
+        <h2>Simon says</h2>
+      </div>
     </div>
-    <div class="level-board">
-      Nivel
-      <div class="p" id="level-board">0</div>
+    <div class="row align-items-center">
+      <div class="col text-center offset-2">
+        <div class="score-board">
+          Aciertos
+          <div class="p" id="score-board"> 0 </div>  
+        </div>
+      </div>
+      <div class="col text-center">
+        <div class="level-board">
+          Nivel
+          <div class="p" id="level-board">0</div>
+        </div>
+      </div>
     </div>
-    <div class="gameboard">
-      <div id="celeste" class="color celeste left" data-color="celeste" data-hola="holiwis"></div>
-      <div id="violeta" class="color violeta right" data-color="violeta"></div>
-      <div id="naranja" class="color naranja left" data-color="naranja" ></div>
-      <div id="verde" class="color verde right" data-color="verde"></div>
-      
-      <button id="btnEmpezar" class="btn-start" onclick="empezarJuego()">Empezar a jugar!</button>
-    
+    <div class="row mt-4">
+      <div class="gameboard">
+        <div id="celeste" class="color celeste left" data-color="celeste" data-hola="holiwis"></div>
+        <div id="violeta" class="color violeta right" data-color="violeta"></div>
+        <div id="naranja" class="color naranja left" data-color="naranja" ></div>
+        <div id="verde" class="color verde right" data-color="verde"></div>
+
+        <button id="btnEmpezar" class="btn btn-start text-dark bg-warning" onclick="empezarJuego()">Empezar a jugar!</button>
+      </div>
     </div>
-    <script src="logic.js"></script>
-  </body>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+  <script src="logic.js"></script>
+</body>
 </html>

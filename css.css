@@ -1,5 +1,5 @@
 body {
-  margin: 0;
+  margin: 20px;
   background: #dedede;
   display: flex;
   align-items: center;
@@ -16,11 +16,9 @@ body {
 }
 
 .score-board{
-  position: absolute;
+  position:absolute;
   height: 50px;
   width: 150px;
-  margin-left: 15%;
-  border: 2px solid red;
   align-items: center;
   text-align: center;
 }
@@ -29,8 +27,6 @@ body {
   position: absolute;
   height: 50px;
   width: 150px;
-  margin-left: 80%;
-  border: 2px solid red;
   align-items: center;
   text-align: center;
 }

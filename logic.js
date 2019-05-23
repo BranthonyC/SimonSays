@@ -6,7 +6,7 @@ const verde = document.getElementById('verde')
 const btnEmpezar = document.getElementById('btnEmpezar')
 const scoreboard = document.getElementById('score-board')
 const levelboard = document.getElementById('level-board')
-const LAST_LEVEL = 10;
+const LAST_LEVEL = 2;
 
 //Clases
 class Juego {
@@ -20,10 +20,11 @@ class Juego {
   inicializar() {
     this.pickColor = this.pickColor.bind(this)
     this.nextLevel = this.nextLevel.bind(this)
+    this.removeClickEvent = this.removeClickEvent.bind(this)
     //Atamos el metodo pickColor a This del juego entonces 
     //el this sera siempre la clase Juego y no el boton que 
     //desencadena la accion.
-    btnEmpezar.classList.add('hide')
+    this.toggleBtnEmpezar()
     this.nivel = 1
     this.score = scoreboard
     this.lever = levelboard
@@ -33,6 +34,15 @@ class Juego {
       naranja,
       verde
     }
+  }
+
+  toggleBtnEmpezar(){
+    if(btnEmpezar.classList.contains('hide')){
+      btnEmpezar.classList.remove('hide')
+    }else{
+      btnEmpezar.classList.add('hide')
+    }
+
   }
 
   generateSecuense(){
@@ -55,38 +65,38 @@ class Juego {
   }
 
   lightColor(color){
-      console.log(this.colores[color])
-      this.colores[color].classList.add('light')
-      setTimeout( () => this.lightOff(color) , 350)
+    console.log(this.colores[color])
+    this.colores[color].classList.add('light')
+    setTimeout( () => this.lightOff(color) , 350)
   }
 
   lightOff(color){
-      this.colores[color].classList.remove('light')
+    this.colores[color].classList.remove('light')
   }
 
   transformNumberToColor(number){
     switch (number){
       case 0:
-        return 'celeste'
+      return 'celeste'
       case 1:
-        return 'violeta'
+      return 'violeta'
       case 2:
-        return 'naranja'
+      return 'naranja'
       case 3:
-        return 'verde'
+      return 'verde'
     }
   }
 
   transformColorToNumber(color){
     switch (color){
       case 'celeste':
-        return 0
+      return 0
       case 'violeta':
-        return 1
+      return 1
       case 'naranja':
-        return 2
+      return 2
       case 'verde':
-        return 3
+      return 3
     }
   }
 
@@ -104,36 +114,66 @@ class Juego {
     this.colores.naranja.removeEventListener('click', this.pickColor)
   }
 
+  win(){
+    Swal.fire(
+      'Simon says',
+      'Good job! You have finished the game',
+      'success'
+      )
+    .then(this.inicializar())
+  }
+  loss(){
+    console.log(this)
+    Swal('Simon says', 'You have loss the game :(','error')
+    .then(() =>{
+      this.removeClickEvent()
+      this.inicializar()
+    })
+  }
 
   pickColor(ev){
-
-      const colorName = ev.target.dataset.color
-      const colorNumber = this.transformColorToNumber(colorName)
-      this.lightColor(colorName)
-      if(colorNumber === this.secuencia[this.subnivel]){
-        this.subnivel++
-        scoreboard.innerHTML = `${this.subnivel}`
+    const colorName = ev.target.dataset.color
+    const colorNumber = this.transformColorToNumber(colorName)
+    this.lightColor(colorName)
+    if(colorNumber === this.secuencia[this.subnivel]){
+      this.subnivel++
+      scoreboard.innerHTML = `${this.subnivel}`
         //scoreboard.innerHTML='Muy bien! Sigue asi'
         if (this.subnivel === this.nivel){
-            console.log('Haz pasado de nivel!')
+          let timerInterval
+          Swal.fire({
+            title: 'Simon says',
+            html: 'Good job! next level is coming',
+            timer: 500,
+            onBeforeOpen: () => {
+              Swal.showLoading()
+              timerInterval = setInterval(() => {
+                Swal.getContent().querySelector('strong')
+                .textContent = Swal.getTimerLeft()
+              }, 100)
+            },
+            onClose: () => {
+              clearInterval(timerInterval)
+            }
+          }).then((result) => {
             this.nivel++
             this.removeClickEvent()
             if(this.nivel===LAST_LEVEL+1){
-              alert('Felicidades has completado el juego!')
+              this.win()
             }else{
               console.log('iniciando siguiente nivel')
               setTimeout(this.nextLevel,1000)
             }
+          })
         }
       }else{
-        alert('Haz perdido el juego')
-        //Logica para reiniciar la pagina.
+        this.loss()
       }
+
+    }
 
   }
 
-}
-
-function empezarJuego() {
-  window.juego = new Juego()
-}
+  function empezarJuego(){
+    window.juego = new Juego()
+  }
