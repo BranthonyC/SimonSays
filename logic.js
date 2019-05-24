@@ -6,7 +6,7 @@ const verde = document.getElementById('verde')
 const btnEmpezar = document.getElementById('btnEmpezar')
 const scoreboard = document.getElementById('score-board')
 const levelboard = document.getElementById('level-board')
-const LAST_LEVEL = 2;
+const LAST_LEVEL = 10;
 
 //Clases
 class Juego {
